@@ -1,4 +1,4 @@
-package com.library;
+package com.library.main;
 
 interface Tips {
     String NO_RESULT = "No such entries";

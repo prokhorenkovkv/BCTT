@@ -1,4 +1,4 @@
-package com.library;
+package com.library.main;
 
 import java.io.BufferedReader;
 import java.sql.Connection;
@@ -27,14 +27,21 @@ public class QueryParser {
             removeBook(query, connection, bufferedReader);
             return;
         }
-        System.out.println(Tips.NO_COMMAND);
+        if (!query.equals("")) {
+            System.out.println(Tips.NO_COMMAND);
+        }
     }
 
-    private static void getAllBooks(Connection connection) throws Exception {
+    public static void getAllBooks(Connection connection) throws Exception {
         String sql = "SELECT id, author, name FROM books";
         ArrayList<Book> books = getRecords(sql, connection);
-        System.out.println(Tips.LIST);
-        books.forEach(book -> System.out.println(book.toString()));
+        if (books.size() > 0) {
+            System.out.println(Tips.LIST);
+            books.forEach(book -> System.out.println(book.toString()));
+        } else {
+            System.out.println(Tips.NO_RESULT);
+        }
+
     }
 
     private static void addBook(String query, Connection connection) throws Exception {
@@ -83,7 +90,7 @@ public class QueryParser {
                     sql = "UPDATE books SET name = '" + name + "' WHERE id = " + books.get(index - 1).getId();
                     Statement statement = connection.createStatement();
                     statement.executeUpdate(sql);
-                    System.out.println("Book " + books.get(index-1).getAuthor() + " " + name + " was updated");
+                    System.out.println("Book " + books.get(index - 1).getAuthor() + " " + name + " was updated");
                 } else {
                     System.out.println(Tips.INCORRECT);
                 }

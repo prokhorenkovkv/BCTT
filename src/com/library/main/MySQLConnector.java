@@ -1,4 +1,4 @@
-package com.library;
+package com.library.main;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -19,11 +19,12 @@ public class MySQLConnector {
         return connection;
     }
 
-    static void closeConnection(Connection connection) {
+    public static Connection closeConnection(Connection connection) {
         try {
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return connection;
     }
 }
