@@ -1,4 +1,4 @@
-package com.library.main;
+package com.library;
 
 import java.io.BufferedReader;
 import java.sql.Connection;

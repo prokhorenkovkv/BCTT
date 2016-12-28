@@ -1,13 +1,14 @@
-package com.library.main;
+package com.library;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.sql.Connection;
 
 public class Main {
 
-    public static void main(String[] args) {
-        Connection connection = null;
+    public static void main(String[] args) throws FileNotFoundException {
+        MySQLConnector mySQLConnector = new MySQLConnector();
+
+        /*Connection connection = null;
         try {
             connection = MySQLConnector.getConnection();
         } catch (Exception e) {
@@ -34,6 +35,6 @@ public class Main {
                 e.printStackTrace();
             }
         }
-        MySQLConnector.closeConnection(connection);
+        MySQLConnector.closeConnection(connection);*/
     }
 }

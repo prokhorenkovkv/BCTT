@@ -1,4 +1,4 @@
-package com.library.main;
+package com.library;
 
 interface Operations {
     String ALL = "all";

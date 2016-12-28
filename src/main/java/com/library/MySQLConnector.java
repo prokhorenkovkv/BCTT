@@ -1,4 +1,4 @@
-package com.library.main;
+package com.library;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -6,14 +6,15 @@ import java.sql.*;
 import java.util.Properties;
 
 public class MySQLConnector {
-    public static Connection getConnection() throws Exception {
-        Properties properties = new Properties();
+    public Connection getConnection() throws Exception {
+
         Connection connection = null;
-        InputStream inputStream = new FileInputStream("mysql.properties");
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("mysql.properties");
+        Properties properties = new Properties();
         properties.load(inputStream);
         Class.forName(properties.getProperty("mysql.driver"));
         connection = DriverManager.getConnection(
-                properties.getProperty("mysql.url") + properties.getProperty("mysql.db"),
+                properties.getProperty("mysql.url"),// + properties.getProperty("mysql.db"),
                 properties.getProperty("mysql.username"),
                 properties.getProperty("mysql.password"));
         return connection;

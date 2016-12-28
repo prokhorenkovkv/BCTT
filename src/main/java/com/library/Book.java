@@ -1,4 +1,4 @@
-package com.library.main;
+package com.library;
 
 public class Book {
     private int id;

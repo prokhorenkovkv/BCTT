@@ -1,19 +1,17 @@
-package com.library.test;
-
+import com.library.MySQLConnector;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.sql.Connection;
 
-import static com.library.main.MySQLConnector.closeConnection;
-import static com.library.main.MySQLConnector.getConnection;
+import static com.library.MySQLConnector.closeConnection;
 
 
 public class MySQLConnectorTest {
     public MySQLConnectorTest() throws Exception {
     }
-
-    Connection connection = getConnection();
+private MySQLConnector connector = new MySQLConnector();
+    Connection connection = connector.getConnection();
 
     @Test
     public void getConnectionTest() throws Exception {
