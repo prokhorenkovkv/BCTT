@@ -1,16 +1,13 @@
-import com.library.MySQLConnector;
+import com.library.services.MySQLConnector;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.sql.Connection;
 
-import static com.library.MySQLConnector.closeConnection;
-
-
 public class MySQLConnectorTest {
     public MySQLConnectorTest() throws Exception {
     }
-private MySQLConnector connector = new MySQLConnector();
+private MySQLConnector connector = MySQLConnector.getInstance();
     Connection connection = connector.getConnection();
 
     @Test
@@ -19,6 +16,6 @@ private MySQLConnector connector = new MySQLConnector();
     }
     @Test
     public void closeConnectionTest() throws Exception {
-        Assert.assertNotNull(closeConnection(connection));
+        Assert.assertNotNull(connector.closeConnection(connection));
     }
 }

@@ -1,67 +1,45 @@
-package com.library;
+package com.library.dao.impl;
 
-import java.io.BufferedReader;
+import com.library.dao.BookDAO;
+import com.library.entities.Book;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
-public class QueryParser {
-    public static void parseQuery(String query, Connection connection, BufferedReader bufferedReader) throws Exception {
-        String operation = getOperation(query);
-
-        if (operation.toLowerCase().equals(Operations.ALL)) {
-            getAllBooks(connection);
-            return;
-        }
-        if (operation.toLowerCase().equals(Operations.ADD)) {
-            addBook(query, connection);
-            return;
-        }
-        if (operation.toLowerCase().equals(Operations.UPDATE)) {
-            updateBook(query, connection, bufferedReader);
-            return;
-        }
-        if (operation.toLowerCase().equals(Operations.REMOVE)) {
-            removeBook(query, connection, bufferedReader);
-            return;
-        }
-        if (!query.equals("")) {
-            System.out.println(Tips.NO_COMMAND);
-        }
-    }
-
-    public static void getAllBooks(Connection connection) throws Exception {
+public class BookDAOImpl implements BookDAO {
+    @Override
+    public List<Book> getAllBooks(Connection connection) throws Exception {
         String sql = "SELECT id, author, name FROM books";
-        ArrayList<Book> books = getRecords(sql, connection);
+        /*ArrayList<Book> books = getRecords(sql, connection);
         if (books.size() > 0) {
             System.out.println(Tips.LIST);
             books.forEach(book -> System.out.println(book.toString()));
         } else {
             System.out.println(Tips.NO_RESULT);
-        }
-
+        }*/
+        return getRecords(sql, connection);
     }
 
-    private static void addBook(String query, Connection connection) throws Exception {
-        String name = parseName(query);
-        String author = parseAuthor(query);
-        String sql = "INSERT INTO books (name, author) VALUES ('" + name + "','" + author + "')";
-        if (name.equals("") || author.equals("")) {
-            System.out.println(Tips.REQUIRED);
-        } else {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
-            System.out.println("Book " + author + " " + name + " was added");
-        }
+    @Override
+    public List<Book> getBooksByName(Connection connection, String name) throws Exception {
+        String sql = "SELECT id, author, name FROM books WHERE name = " + "'" + name + "'";
+        return getRecords(sql, connection);
     }
 
-    private static void updateBook(String query, Connection connection, BufferedReader bufferedReader) throws Exception {
-        String name = parseName(query);
+    @Override
+    public Book getBook(Connection connection, int id) throws Exception {
+        return null;
+    }
+
+    @Override
+    public void updateBook(Connection connection, String name) throws Exception {
         String sql = "SELECT id, author, name FROM books WHERE name = " + "'" + name + "'";
         ArrayList<Book> books = getRecords(sql, connection);
-        int size = books.size();
+        /*int size = books.size();
         int id = 0;
         if (size == 0) {
             System.out.println(Tips.NO_RESULT);
@@ -82,7 +60,7 @@ public class QueryParser {
             }
             int index = 0;
             String choise = bufferedReader.readLine().trim();
-            if (!choise.equals("") && !choise.equals(Operations.CANCEL)) {
+            if (!choise.equals("") && !choise.equals(Commands.CANCEL)) {
                 index = Integer.parseInt(choise);
                 System.out.println(Tips.NEW_NAME);
                 name = bufferedReader.readLine().trim();
@@ -95,14 +73,14 @@ public class QueryParser {
                     System.out.println(Tips.INCORRECT);
                 }
             }
-        }
+        }*/
     }
 
-    private static void removeBook(String query, Connection connection, BufferedReader bufferedReader) throws Exception {
-        String name = parseName(query);
+    @Override
+    public void deleteBook(Connection connection, String name) throws Exception {
         String sql = "SELECT id, author, name FROM books WHERE name = '" + name + "'";
         ArrayList<Book> books = getRecords(sql, connection);
-        int size = books.size();
+        /*int size = books.size();
         int id = 0;
         if (size == 0) {
             System.out.println(Tips.NO_RESULT);
@@ -121,7 +99,7 @@ public class QueryParser {
             }
             int index = 0;
             String choise = bufferedReader.readLine().trim();
-            if (!choise.equals("") && !choise.equals(Operations.CANCEL)) {
+            if (!choise.equals("") && !choise.equals(Commands.CANCEL)) {
                 index = Integer.parseInt(choise);
                 if (index >= 1 && index < books.size() + 1) {
                     sql = "DELETE FROM books WHERE id = " + books.get(index - 1).getId();
@@ -132,39 +110,36 @@ public class QueryParser {
                     System.out.println(Tips.INCORRECT);
                 }
             }
-        }
+        }*/
     }
 
-    private static String getOperation(String query) {
-        StringBuilder operation = new StringBuilder();
-        char[] chars = query.toCharArray();
-        for (char c : chars) {
-            if (c != ' ') {
-                operation.append(c);
-            } else {
-                break;
-            }
-        }
-        return operation.toString();
+    @Override
+    public void addBook(Connection connection, String name, String author) throws Exception {
+        String sql = "INSERT INTO books (name, author) VALUES ('" + name + "','" + author + "')";
+        /*if (name.equals("") || author.equals("")) {
+            System.out.println(Tips.REQUIRED);
+        } else {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sql);
+            System.out.println("Book " + author + " " + name + " was added");
+        }*/
     }
 
-    private static String parseName(String query) {
-        int start = query.indexOf("\"");
-        int end = query.lastIndexOf("\"");
-        return start != -1 && end != -1 ? query.substring(start + 1, end).trim() : "";
+/*
+    @Override
+    public void updateBook(Book book) {
+
     }
 
-    private static String parseAuthor(String query) {
-        int end = query.indexOf("\"");
-        return end != -1 ? query.substring(Operations.ADD.length(), end).trim() : "";
-    }
+    */
 
-    private static ArrayList<Book> getRecords(String sql, Connection connection) throws Exception {
+    private ArrayList<Book> getRecords(String sql, Connection connection) throws Exception {
         ArrayList<Book> books = new ArrayList<Book>();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
-        while (resultSet.next())
+        while (resultSet.next()) {
             books.add(new Book(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(2)));
+        }
         Collections.sort(books, (book1, book2) -> book1.getName().compareTo(book2.getName()));
         return books;
     }
