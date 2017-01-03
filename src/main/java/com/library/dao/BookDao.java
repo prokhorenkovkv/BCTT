@@ -3,18 +3,16 @@ package com.library.dao;
 import com.library.entities.Book;
 
 import java.sql.Connection;
-import java.util.List;
+import java.util.ArrayList;
 
 public interface BookDAO {
-    List<Book> getAllBooks(Connection connection) throws Exception;
+    ArrayList<Book> getAllBooks(Connection connection) throws Exception;
 
-    List<Book> getBooksByName(Connection connection, String name) throws Exception;
+    ArrayList<Book> getBooksByName(Connection connection, String name) throws Exception;
 
-    Book getBook(Connection connection, int id) throws Exception;
+    int addBook(Connection connection, Book book) throws Exception;
 
-    void updateBook(Connection connection, String name) throws Exception;
+    int updateBook(Connection connection, Book book) throws Exception;
 
-    void deleteBook(Connection connection, String name) throws Exception;
-
-    void addBook(Connection connection, String name, String author) throws Exception;
+    int deleteBook(Connection connection, Book book) throws Exception;
 }

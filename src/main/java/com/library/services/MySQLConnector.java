@@ -7,6 +7,7 @@ import java.util.Properties;
 public class MySQLConnector {
 
     private static MySQLConnector mySQLConnector = null;
+    private Connection connection;
 
     public static MySQLConnector getInstance() {
         if (mySQLConnector == null) {
@@ -21,7 +22,6 @@ public class MySQLConnector {
     }
 
     public Connection getConnection() throws Exception {
-        Connection connection = null;
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("mysql.properties");
         Properties properties = new Properties();
         properties.load(inputStream);
@@ -33,7 +33,7 @@ public class MySQLConnector {
         return connection;
     }
 
-    public Connection closeConnection(Connection connection) {
+    public Connection closeConnection() {
         try {
             connection.close();
         } catch (SQLException e) {

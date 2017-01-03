@@ -1,39 +1,36 @@
 package com.library;
 
 import com.library.constants.Commands;
-import com.library.constants.Tips;
+import com.library.services.ConsoleDialog;
 import com.library.services.MySQLConnector;
 import com.library.services.QueryParser;
 
-import java.io.*;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 
 public class Main {
-
     public static void main(String[] args) throws FileNotFoundException {
 
         MySQLConnector mySQLConnector = MySQLConnector.getInstance();
+        QueryParser queryParser = new QueryParser();
+        ConsoleDialog consoleDialog = new ConsoleDialog();
 
-        String query = Tips.TIPS.toString();
-        System.out.println(query);
+        consoleDialog.writeTips();
 
         while (true) {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
             try {
-                Connection connection = mySQLConnector.getConnection();
-                query = bufferedReader.readLine().trim();
+                String query = consoleDialog.getQuery();
                 if (query.equals(Commands.HELP.toString())) {
-                    System.out.println(Tips.TIPS);
-                }
-                if (!query.equals(Commands.EXIT.toString())) {
-                    QueryParser queryParser = new QueryParser();
-                    queryParser.parseQuery(query, connection, bufferedReader);
-                    mySQLConnector.closeConnection(connection);
-                    bufferedReader.close();
+                    consoleDialog.writeTips();
                 } else {
-                    mySQLConnector.closeConnection(connection);
-                    bufferedReader.close();
-                    break;
+                    if (!query.equals(Commands.EXIT.toString())) {
+                        Connection connection = mySQLConnector.getConnection();
+                        queryParser.parseQuery(query, connection);
+                        mySQLConnector.closeConnection();
+                    } else {
+                        consoleDialog.close();
+                        break;
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
