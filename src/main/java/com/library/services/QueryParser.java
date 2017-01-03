@@ -61,8 +61,7 @@ public class QueryParser {
     private String parseName(String query) {
         int start = query.indexOf("\"");
         int end = query.lastIndexOf("\"");
-        //return start != -1 && end != -1 ? query.substring(start + 1, end).trim() : "";
-        throw new IndexOutOfBoundsException();
+        return start != -1 && end != -1 ? query.substring(start + 1, end).trim() : "";
     }
 
     private String parseAuthor(String query) {

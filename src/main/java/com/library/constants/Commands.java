@@ -9,14 +9,14 @@ public enum Commands {
     HELP("help"),
     CANCEL("cancel");
 
-    private String operation;
+    private String command;
 
     Commands(String operation) {
-        this.operation = operation;
+        this.command = operation;
     }
 
     @Override
     public String toString() {
-        return operation;
+        return command;
     }
 }
