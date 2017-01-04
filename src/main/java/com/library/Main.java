@@ -5,15 +5,14 @@ import com.library.services.ConsoleDialog;
 import com.library.services.MySQLConnector;
 import com.library.services.QueryParser;
 
-import java.io.FileNotFoundException;
 import java.sql.Connection;
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
 
         MySQLConnector mySQLConnector = MySQLConnector.getInstance();
-        QueryParser queryParser = new QueryParser();
-        ConsoleDialog consoleDialog = new ConsoleDialog();
+        QueryParser queryParser = QueryParser.getInstance();
+        ConsoleDialog consoleDialog = ConsoleDialog.getInstance();
 
         consoleDialog.writeTips();
 

@@ -1,14 +1,21 @@
 package com.library.services;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
 
+/**
+ * Manage database connection states
+ */
 public class MySQLConnector {
 
     private static MySQLConnector mySQLConnector = null;
     private Connection connection;
 
+    /**
+     * @return instance of MySQLConnector
+     */
     public static MySQLConnector getInstance() {
         if (mySQLConnector == null) {
             return new MySQLConnector();
@@ -21,7 +28,14 @@ public class MySQLConnector {
 
     }
 
-    public Connection getConnection() throws Exception {
+    /**
+     * Establish database connection
+     * @return database connection
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     * @throws IOException
+     */
+    public Connection getConnection() throws SQLException, ClassNotFoundException, IOException {
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("mysql.properties");
         Properties properties = new Properties();
         properties.load(inputStream);
@@ -33,12 +47,13 @@ public class MySQLConnector {
         return connection;
     }
 
-    public Connection closeConnection() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    /**
+     * Close database connection
+     * @return database connection
+     * @throws SQLException
+     */
+    public Connection closeConnection() throws SQLException {
+        connection.close();
         return connection;
     }
 }
