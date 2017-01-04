@@ -7,7 +7,6 @@ import com.library.entities.Book;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -99,13 +98,12 @@ public class ConsoleDialog {
 
     /**
      * Specify book from books list
-     * Invoke {@link #validateSpecificaton(String)}
+     * Invoke {@link #validateSpecification(String)}
      * @param books list of books that is being specified
      * @return specified book
      * @throws IOException
-     * @throws ParseException
      */
-    public Book getSpecificaton(ArrayList<Book> books) throws IOException, ParseException{
+    public Book getSpecification(ArrayList<Book> books) throws IOException{
         int size = books.size();
         if (size == 0) {
             System.out.println(Tips.NO_RESULT);
@@ -120,7 +118,7 @@ public class ConsoleDialog {
             }
             int index;
             String choice = bufferedReader.readLine().trim();
-            if (validateSpecificaton(choice)) {
+            if (validateSpecification(choice)) {
                 index = Integer.parseInt(choice);
                 if (index >= 1 && index < books.size() + 1) {
                     return books.get(index - 1);
@@ -135,7 +133,7 @@ public class ConsoleDialog {
     /**
      * Validate new book's fields
      * @param book book that is to be validated
-     * @return
+     * @return validating result
      */
     public boolean validateNewBook(Book book) {
         boolean result = book.getName().equals("") || book.getAuthor().equals("");
@@ -148,9 +146,9 @@ public class ConsoleDialog {
     /**
      * Validate user's input
      * @param choice user's input
-     * @return
+     * @return validating result
      */
-    private boolean validateSpecificaton(String choice) {
+    private boolean validateSpecification(String choice) {
         return !choice.equals("") && !choice.equals(Commands.CANCEL.toString());
     }
 

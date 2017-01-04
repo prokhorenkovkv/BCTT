@@ -61,7 +61,7 @@ public class QueryParser {
             return;
         }
         if (command.toLowerCase().equals(Commands.UPDATE.toString())) {
-            Book book = consoleDialog.getSpecificaton(bookDAO.getBooksByName(connection, name));
+            Book book = consoleDialog.getSpecification(bookDAO.getBooksByName(connection, name));
             if (book != null) {
                 book.setName(consoleDialog.getNewName());
                 if (bookDAO.updateBook(connection, book) > 0) {
@@ -73,7 +73,7 @@ public class QueryParser {
             return;
         }
         if (command.toLowerCase().equals(Commands.REMOVE.toString())) {
-            Book book = consoleDialog.getSpecificaton(bookDAO.getBooksByName(connection, name));
+            Book book = consoleDialog.getSpecification(bookDAO.getBooksByName(connection, name));
             if (book != null) {
                 if (bookDAO.deleteBook(connection, book) > 0) {
                     consoleDialog.writeDeletion(book);
